@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+
 // #include <ctype.h>
 #include <ctype.h>
 #include <stdio.h>

@@ -8,11 +8,11 @@ VMAJ:=0
 VMIN:=1
 VREV:=0
 
-IDIRS:=-Idist/
+IDIRS:=-Iinclude/
 CDEFS:=-D_FILE_OFFSET_BITS=64 -DTARGET=$(TARGET)
 CDEFS+=-DNAME=\"$(NAME)\" -DVMAJ=$(VMAJ) -DVMIN=$(VMIN) -DVREV=$(VREV)
 
-IDIRS_APP:=$(IDIRS) -Iapp/
+IDIRS_APP:=$(IDIRS) -Icli/
 IDIRS_LIB:=$(IDIRS) -Ilib/
 
 CFLAGS+=$(CDEFS) -fstack-protector-strong -Wall -Wextra -Werror -MMD -c -fpie 
@@ -31,8 +31,8 @@ DEPS:=libunwind
 CFLAGS_DEPS:=$(foreach dep, $(DEPS), $(shell pkg-config --cflags $(dep)))
 LFLAGS_DEPS:=$(foreach dep, $(DEPS), $(shell pkg-config --libs $(dep)))
 
-CSRC_APP:=$(shell find app/ -type f -regex '.*\.c')
-COBJ_APP:=$(patsubst app/%.c, build/app/%.c.o, $(CSRC_APP))
+CSRC_APP:=$(shell find cli/ -type f -regex '.*\.c')
+COBJ_APP:=$(patsubst cli/%.c, build/cli/%.c.o, $(CSRC_APP))
 
 CSRC_LIB:=$(shell find lib/ -type f -regex '.*\.c')
 COBJ_LIB:=$(patsubst lib/%.c, build/lib/%.c.o, $(CSRC_LIB))
@@ -49,7 +49,7 @@ $(LIB): $(COBJ_LIB)
 	ar -rcs $@ $(COBJ_LIB)
 
 # build binary 
-build/app/%.c.o: app/%.c
+build/cli/%.c.o: cli/%.c
 	mkdir -p $(dir $@)
 	$(CC) $(IDIRS_APP) $(CFLAGS) $(CFLAGS_DEPS) $< -o $@
 
@@ -72,6 +72,6 @@ clean:
 	rm -rf build/
 
 bear: 
-	bear -- make clean all
+	./util/bear.sh
 
 -include build/*.c.d
