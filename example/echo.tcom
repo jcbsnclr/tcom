@@ -1,0 +1,2 @@
+echo hello;
+sum 1 2 3;

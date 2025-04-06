@@ -1,0 +1,30 @@
+# example bounds
+set hmin 0.05;
+set hmax 0.95;
+
+set tmin 20;
+set tmax 50;
+
+# string to output
+set outp "n/a";
+
+when SensorRead {data} {
+  # extract humidity and temperature
+  bind $data { h humidity; t temperature; };
+
+  "foo $bar [baz]";
+  
+  if [outwith $h $hmin $hmax] {
+    notify "humidity critical (" [mul $h 100] "%)";
+  };
+
+  if [outwith $t $tmax $tmin] {
+    notify "temperature critical (" $t "c)";
+  };
+
+  set outp "Temp: " $t "C, Humid: " [mul $h 100] "%";
+};
+
+when Redraw {
+  display $outp;
+};

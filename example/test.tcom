@@ -1,0 +1,13 @@
+#!/usr/bin/env tcom
+
+# anti-regime sentiment crusher
+#
+# SPDX-License-Identifier: FUCKING-PROPRIETARY
+
+set ans [prompt "give me the answer! "];
+
+if [is-wrong $ans] {
+	echo "existence denied!!!!";
+} else {
+	send http://big.tech/ [read "all/your/data"];
+};

@@ -1,0 +1,17 @@
+# example of tcom for configuring ksync
+
+server {
+  port 1234;
+  db /var/ksync/db;
+
+  permit *     /**/* r;
+  permit jacob /**/* rw;
+  permit jack  /jack rw;
+
+  auto_gc;
+};
+
+sync ksync://example.com/abc {
+  into /home/jacob/abc;
+  as jacob;
+};
